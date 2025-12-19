@@ -1,0 +1,28 @@
+{
+  "name": "libyuv",
+  "version": "1916",
+  "description": "libyuv is an open source project that includes YUV scaling and conversion functionality",
+  "homepage": "https://chromium.googlesource.com/libyuv/libyuv",
+  "license": null,
+  "dependencies": [
+    "libjpeg-turbo",
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-get-vars",
+      "host": true
+    }
+  ],
+  "features": {
+    "tools": {
+      "description": "build command line tool",
+      "supports": "!android & !ios & !xbox & !wasm32"
+    }
+  }
+}
