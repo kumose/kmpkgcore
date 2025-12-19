@@ -952,6 +952,10 @@
             "baseline": "2025-02-09",
             "port-version": 0
         },
+        "kmpkg-get-python-packages": {
+            "baseline": "2025-04-05",
+            "port-version": 0
+        },
         "kmpkg-make": {
             "baseline": "2025-10-26",
             "port-version": 0
