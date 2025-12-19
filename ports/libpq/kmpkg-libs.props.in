@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <KmpkgIcuLibs>@CURRENT_INSTALLED_DIR@/debug/lib/icuind.lib;@CURRENT_INSTALLED_DIR@/debug/lib/icuucd.lib;@CURRENT_INSTALLED_DIR@/debug/lib/icudtd.lib;</KmpkgIcuLibs>
+    <KmpkgLz4Libs>@CURRENT_INSTALLED_DIR@/debug/lib/lz4d.lib</KmpkgLz4Libs>
+    <KmpkgNlsLibs>@CURRENT_INSTALLED_DIR@/debug/lib/intl.lib;@CURRENT_INSTALLED_DIR@/debug/lib/iconv.lib;@CURRENT_INSTALLED_DIR@/debug/lib/charset.lib</KmpkgNlsLibs>
+    <KmpkgOpensslLibs>@CURRENT_INSTALLED_DIR@/debug/lib/libssl.lib;@CURRENT_INSTALLED_DIR@/debug/lib/libcrypto.lib;crypt32.lib;ws2_32.lib;secur32.lib</KmpkgOpensslLibs>
+    <KmpkgPythonLibs>@CURRENT_INSTALLED_DIR@/debug/lib/python3@PYTHON_VERSION_MINOR@_d.lib</KmpkgPythonLibs>
+    <KmpkgTcl90Libs>@CURRENT_INSTALLED_DIR@/debug/lib/tcl90g.lib</KmpkgTcl90Libs>
+    <KmpkgTcl90sLibs>@CURRENT_INSTALLED_DIR@/debug/lib/tcl90sg.lib</KmpkgTcl90sLibs>
+    <KmpkgTcl90sxLibs>@CURRENT_INSTALLED_DIR@/debug/lib/tcl90sgx.lib</KmpkgTcl90sxLibs>
+    <KmpkgXmlLibs>@LIBXML2_LIBS_DEBUG@</KmpkgXmlLibs>
+    <KmpkgXsltLibs>@LIBXSLT_LIBS_DEBUG@</KmpkgXsltLibs>
+    <KmpkgZlibLibs>@CURRENT_INSTALLED_DIR@/debug/lib/zlibd.lib</KmpkgZlibLibs>
+    <KmpkgZstdLibs>@CURRENT_INSTALLED_DIR@/debug/lib/zstd.lib</KmpkgZstdLibs>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <KmpkgIcuLibs>@CURRENT_INSTALLED_DIR@/lib/icuin.lib;@CURRENT_INSTALLED_DIR@/lib/icuuc.lib;@CURRENT_INSTALLED_DIR@/lib/icudt.lib;</KmpkgIcuLibs>
+    <KmpkgLz4Libs>@CURRENT_INSTALLED_DIR@/lib/lz4.lib</KmpkgLz4Libs>
+    <KmpkgNlsLibs>@CURRENT_INSTALLED_DIR@/lib/intl.lib;@CURRENT_INSTALLED_DIR@/lib/iconv.lib;@CURRENT_INSTALLED_DIR@/lib/charset.lib</KmpkgNlsLibs>
+    <KmpkgOpensslLibs>@CURRENT_INSTALLED_DIR@/lib/libssl.lib;@CURRENT_INSTALLED_DIR@/lib/libcrypto.lib;crypt32.lib;ws2_32.lib;secur32.lib</KmpkgOpensslLibs>
+    <KmpkgPythonLibs>@CURRENT_INSTALLED_DIR@/lib/python3@PYTHON_VERSION_MINOR@.lib</KmpkgPythonLibs>
+    <KmpkgTcl90Libs>@CURRENT_INSTALLED_DIR@/lib/tcl90.lib</KmpkgTcl90Libs>
+    <KmpkgTcl90sLibs>@CURRENT_INSTALLED_DIR@/lib/tcl90s.lib</KmpkgTcl90sLibs>
+    <KmpkgTcl90sxLibs>@CURRENT_INSTALLED_DIR@/lib/tcl90sx.lib</KmpkgTcl90sxLibs>
+    <KmpkgXmlLibs>@LIBXML2_LIBS_RELEASE@</KmpkgXmlLibs>
+    <KmpkgXsltLibs>@LIBXSLT_LIBS_RELEASE@</KmpkgXsltLibs>
+    <KmpkgZlibLibs>@CURRENT_INSTALLED_DIR@/lib/zlib.lib</KmpkgZlibLibs>
+    <KmpkgZstdLibs>@CURRENT_INSTALLED_DIR@/lib/zstd.lib</KmpkgZstdLibs>
+  </PropertyGroup>
+</Project>
