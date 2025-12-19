@@ -1,0 +1,18 @@
+{
+  "name": "xtl",
+  "version": "0.8.1",
+  "description": "The x template library",
+  "homepage": "https://github.com/xtensor-stack/xtl",
+  "license": "BSD-3-Clause",
+  "dependencies": [
+    "nlohmann-json",
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}

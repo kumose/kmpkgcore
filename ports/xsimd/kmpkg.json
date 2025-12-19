@@ -1,0 +1,25 @@
+{
+  "name": "xsimd",
+  "version": "14.0.0",
+  "description": "Modern, portable C++ wrappers for SIMD intrinsics",
+  "homepage": "https://github.com/xtensor-stack/xsimd",
+  "license": "BSD-3-Clause",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ],
+  "features": {
+    "xcomplex": {
+      "description": "xtl complex support",
+      "dependencies": [
+        "xtl"
+      ]
+    }
+  }
+}
