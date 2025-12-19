@@ -1,0 +1,47 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Do not define derived properties here. This file may be imported once and some of the properties below may be overridden afterwards -->
+  <PropertyGroup>
+    <KmpkgPropsImported>true</KmpkgPropsImported>
+    <KmpkgEnabled Condition="'$(KmpkgEnabled)' == ''">true</KmpkgEnabled>
+  </PropertyGroup>
+
+  <!-- Set the default value of $(KmpkgConfiguration) according to $(UseDebugLibraries) and $(Configuration) -->
+  <Choose>
+    <When Condition="'$(KmpkgConfiguration)' != ''" />
+    <When Condition="'$(UseDebugLibraries)' == ''">
+      <PropertyGroup>
+        <KmpkgConfiguration>$(Configuration)</KmpkgConfiguration>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(UseDebugLibraries)' == 'true'">
+      <PropertyGroup>
+        <KmpkgConfiguration>Debug</KmpkgConfiguration>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <KmpkgConfiguration>Release</KmpkgConfiguration>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <PropertyGroup>
+    <KmpkgUseStatic Condition="'$(KmpkgUseStatic)' == ''">false</KmpkgUseStatic>
+    <KmpkgRoot Condition="'$(KmpkgRoot)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\..'))</KmpkgRoot>
+
+    <KmpkgAutoLink Condition="'$(KmpkgAutoLink)' == ''">true</KmpkgAutoLink>
+    <!-- Deactivate Autolinking if lld is used as a linker. (Until a better way to solve the problem is found!).
+    Tried to add /lib as a parameter to the linker call but was unable to find a way to pass it as the first parameter. -->
+    <KmpkgAutoLink Condition="'$(UseLldLink)' == 'true' OR '$(PlatformToolset.ToLower())' == 'clangcl'">false</KmpkgAutoLink>
+    <KmpkgApplocalDeps Condition="'$(KmpkgApplocalDeps)' == ''">true</KmpkgApplocalDeps>
+    <KmpkgXUseBuiltInApplocalDeps Condition="'$(KmpkgXUseBuiltInApplocalDeps)' == ''">false</KmpkgXUseBuiltInApplocalDeps>
+
+    <!-- Classic Mode: The following line is edited by the mint standalone bundle script to be false for standlone copies -->
+    <KmpkgEnableClassic Condition="'$(KmpkgEnableClassic)' == ''">true</KmpkgEnableClassic>
+
+    <!-- Manifest files -->
+    <KmpkgEnableManifest Condition="'$(KmpkgEnableManifest)' == ''">false</KmpkgEnableManifest>
+    <KmpkgManifestInstall Condition="'$(KmpkgManifestInstall)' == ''">true</KmpkgManifestInstall>
+    <KmpkgManifestRoot Condition="'$(KmpkgManifestRoot)' == ''">$([MSbuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), kmpkg.json))</KmpkgManifestRoot>
+  </PropertyGroup>
+</Project>

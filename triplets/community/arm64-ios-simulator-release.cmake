@@ -1,0 +1,7 @@
+set(KMPKG_TARGET_ARCHITECTURE arm64)
+set(KMPKG_CRT_LINKAGE dynamic)
+set(KMPKG_LIBRARY_LINKAGE static)
+set(KMPKG_CMAKE_SYSTEM_NAME iOS)
+set(KMPKG_OSX_SYSROOT iphonesimulator)
+
+set(KMPKG_BUILD_TYPE release)

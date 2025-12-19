@@ -1,0 +1,8 @@
+# Use with
+#  KMPKG_FORCE_SYSTEM_BINARIES=1 ./kmpkg install brotli
+
+set(KMPKG_TARGET_ARCHITECTURE x64)
+set(KMPKG_CRT_LINKAGE dynamic)
+set(KMPKG_LIBRARY_LINKAGE static)
+
+set(KMPKG_CMAKE_SYSTEM_NAME OpenBSD)

@@ -1,0 +1,259 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Import default properties if not done yet. This does not overwrite any previously defined properties. -->
+  <Import Condition="'$(KmpkgPropsImported)' != 'true'" Project="kmpkg.props" />
+
+  <!-- VS2015's version of "kmpkg integrate install" imports both the props and targets together in the "props" area,
+  meaning we have no opportunity to respond to user customizations in their project files. It also means that this
+  .targets must defend against normal properties being unset. (For example, KmpkgPlatformTarget below.)
+
+  Also, we copy all initial values to internal values to avoid properties being inconsistently evaluated in targets
+  and dependent properties.
+  -->
+
+  <PropertyGroup>
+    <_ZKmpkgRoot>$(KmpkgRoot)</_ZKmpkgRoot>
+    <_ZKmpkgManifestRoot>$(KmpkgManifestRoot)</_ZKmpkgManifestRoot>
+    <_ZKmpkgInstalledDir>$(KmpkgInstalledDir)</_ZKmpkgInstalledDir>
+  </PropertyGroup>
+
+  <!-- Add trailing slashes to inputs that must have them to conform with msbuild conventions. -->
+  <PropertyGroup>
+    <_ZKmpkgRoot Condition="!$(_ZKmpkgRoot.EndsWith('\'))">$(_ZKmpkgRoot)\</_ZKmpkgRoot>
+    <_ZKmpkgManifestRoot Condition="'$(_ZKmpkgManifestRoot)' != '' and !$(_ZKmpkgManifestRoot.EndsWith('\'))">$(_ZKmpkgManifestRoot)\</_ZKmpkgManifestRoot>
+    <_ZKmpkgInstalledDir Condition="'$(_ZKmpkgInstalledDir)' != '' and !$(_ZKmpkgInstalledDir.EndsWith('\'))">$(_ZKmpkgInstalledDir)\</_ZKmpkgInstalledDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_ZKmpkgClassicOrManifest Condition="'$(KmpkgEnabled)' == 'true' And ('$(KmpkgEnableClassic)' == 'true' Or '$(KmpkgEnableManifest)' == 'true')">true</_ZKmpkgClassicOrManifest>
+    <_ZKmpkgClassicOrManifest Condition="'$(_ZKmpkgClassicOrManifest)' == ''">false</_ZKmpkgClassicOrManifest>
+  </PropertyGroup>
+
+  <!-- Special-case custom MSBuild platforms defined in the Microsoft GDK. See https://aka.ms/gdk and https://aka.ms/gdkx -->
+  <PropertyGroup Condition="'$(KmpkgOSTarget)' == '' AND '$(KmpkgPlatformTarget)' == '' AND '$(Platform)'=='Gaming.Desktop.x64'">
+    <KmpkgOSTarget>windows</KmpkgOSTarget>
+    <KmpkgPlatformTarget>x64</KmpkgPlatformTarget>
+    <KmpkgUseMD>true</KmpkgUseMD>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(KmpkgOSTarget)' == '' AND '$(KmpkgPlatformTarget)' == '' AND '$(Platform)'=='Gaming.Xbox.Scarlett.x64'">
+    <KmpkgOSTarget>xbox-scarlett</KmpkgOSTarget>
+    <KmpkgPlatformTarget>x64</KmpkgPlatformTarget>
+    <KmpkgUseMD>false</KmpkgUseMD>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(KmpkgOSTarget)' == '' AND '$(KmpkgPlatformTarget)' == '' AND '$(Platform)'=='Gaming.Xbox.XboxOne.x64'">
+    <KmpkgOSTarget>xbox-xboxone</KmpkgOSTarget>
+    <KmpkgPlatformTarget>x64</KmpkgPlatformTarget>
+    <KmpkgUseMD>false</KmpkgUseMD>
+  </PropertyGroup>
+
+  <!-- Determine the triplet to use. Note that $(PlatformTarget) is not available at the top of the .vcxproj file. -->
+  <PropertyGroup Condition="'$(KmpkgOSTarget)' == ''">
+    <KmpkgOSTarget>windows</KmpkgOSTarget>
+    <KmpkgOSTarget Condition="'$(AppContainerApplication)' == 'true'">uwp</KmpkgOSTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(KmpkgPlatformTarget)' == ''">
+    <KmpkgPlatformTarget>$(Platform.ToLower())</KmpkgPlatformTarget>
+    <KmpkgPlatformTarget Condition="'$(KmpkgPlatformTarget)' == 'win32'">x86</KmpkgPlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_ZKmpkgLinkage />
+    <_ZKmpkgLinkage Condition="'$(KmpkgUseStatic)' == 'true'">-static</_ZKmpkgLinkage>
+    <_ZKmpkgLinkageMD />
+    <_ZKmpkgLinkageMD Condition="'$(KmpkgUseStatic)' == 'true' and '$(KmpkgUseMD)' == 'true'">-md</_ZKmpkgLinkageMD>
+    <KmpkgTriplet Condition="'$(KmpkgTriplet)' == ''">$(KmpkgPlatformTarget)-$(KmpkgOSTarget)$(_ZKmpkgLinkage)$(_ZKmpkgLinkageMD)</KmpkgTriplet>
+    <KmpkgTriplet Condition="!$(KmpkgTriplet.EndsWith($(_ZKmpkgLinkage)$(_ZKmpkgLinkageMD)))">$(KmpkgTriplet)$(_ZKmpkgLinkage)$(_ZKmpkgLinkageMD)</KmpkgTriplet>
+  </PropertyGroup>
+
+  <!-- Include the triplet in ProjectStateLine to force VS2017 and later to fully rebuild if the user changes it.  -->
+  <PropertyGroup>
+    <ProjectStateLine>KmpkgTriplet=$(KmpkgTriplet):$(ProjectStateLine)</ProjectStateLine>
+  </PropertyGroup>
+
+  <!-- Determine the locations trees we want to consume. _ZKmpkgInstalledDir is special in that it doesn't have a default
+  value in the .props because we normally derive it, but users may override the value. -->
+  <Choose>
+    <When Condition="'$(KmpkgEnableManifest)' == 'true'">
+      <PropertyGroup>
+        <_ZKmpkgInstalledDir Condition="'$(_ZKmpkgInstalledDir)' == ''">$(_ZKmpkgManifestRoot)kmpkg_installed\$(KmpkgTriplet)\</_ZKmpkgInstalledDir>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <_ZKmpkgInstalledDir Condition="'$(_ZKmpkgInstalledDir)' == ''">$(_ZKmpkgRoot)installed\</_ZKmpkgInstalledDir>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <PropertyGroup>
+    <_ZKmpkgCurrentInstalledDir>$(_ZKmpkgInstalledDir)$(KmpkgTriplet)\</_ZKmpkgCurrentInstalledDir>
+    <_ZKmpkgNormalizedConfiguration Condition="$(KmpkgConfiguration.StartsWith('Debug'))">Debug</_ZKmpkgNormalizedConfiguration>
+    <_ZKmpkgNormalizedConfiguration Condition="$(KmpkgConfiguration.StartsWith('Release')) or '$(KmpkgConfiguration)' == 'RelWithDebInfo' or '$(KmpkgConfiguration)' == 'MinSizeRel'">Release</_ZKmpkgNormalizedConfiguration>
+
+    <_ZKmpkgConfigSubdir Condition="'$(_ZKmpkgNormalizedConfiguration)' == 'Debug'">debug\</_ZKmpkgConfigSubdir>
+    <_ZKmpkgExecutable>$(_ZKmpkgRoot)kmpkg.exe</_ZKmpkgExecutable>
+    <ExternalIncludePath Condition="'$(_ZKmpkgClassicOrManifest)' == 'true'">$(ExternalIncludePath);$(_ZKmpkgCurrentInstalledDir)include</ExternalIncludePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Note: Overwrite KmpkgPageSchema with a non-existing path to disable the Kmpkg property sheet in your projects -->
+    <KmpkgPageSchema Condition="'$(KmpkgPageSchema)' == ''">$(_ZKmpkgRoot)scripts\buildsystems\msbuild\kmpkg-general.xml</KmpkgPageSchema>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(KmpkgPageSchema)' != '' and exists('$(KmpkgPageSchema)') and '$(MSBuildToolsVersion)' != '14.0'">
+    <PropertyPageSchema Include="$(KmpkgPageSchema)">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+
+  <!-- Install settings to get headers and import libs for the currently selected _ZKmpkgCurrentInstalledDir -->
+  <ItemDefinitionGroup Condition="'$(_ZKmpkgClassicOrManifest)' == 'true'">
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(_ZKmpkgCurrentInstalledDir)$(_ZKmpkgConfigSubdir)lib;$(_ZKmpkgCurrentInstalledDir)$(_ZKmpkgConfigSubdir)lib\manual-link</AdditionalLibraryDirectories>
+    </Lib>
+    <Link>
+      <AdditionalDependencies Condition="'$(KmpkgAutoLink)' != 'false'">%(AdditionalDependencies);$(_ZKmpkgCurrentInstalledDir)$(_ZKmpkgConfigSubdir)lib\*.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(_ZKmpkgCurrentInstalledDir)$(_ZKmpkgConfigSubdir)lib;$(_ZKmpkgCurrentInstalledDir)$(_ZKmpkgConfigSubdir)lib\manual-link</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(_ZKmpkgCurrentInstalledDir)include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(_ZKmpkgCurrentInstalledDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+
+  <Target Name="KmpkgCheckManifestRoot" BeforeTargets="KmpkgInstallManifestDependencies" Condition="'$(KmpkgEnabled)' == 'true'">
+    <Error Text="The kmpkg manifest was enabled, but we couldn't find a manifest file (kmpkg.json) in any directories above $(MSBuildProjectDirectory). Please add a manifest, disable manifests in your properties page, or pass /p:KmpkgEnableManifest=false."
+           Condition="'$(KmpkgEnableManifest)' == 'true' and '$(_ZKmpkgManifestRoot)' == ''" />
+    <Message Text="The kmpkg manifest was disabled, but we found a manifest file in $(_ZKmpkgManifestRoot). You may want to enable kmpkg manifests in your properties page or pass /p:KmpkgEnableManifest=true to the msbuild invocation."
+             Importance="High" Condition="'$(KmpkgEnableManifest)' != 'true' and '$(_ZKmpkgManifestRoot)' != ''" />
+  </Target>
+
+  <Target Name="KmpkgTripletSelection" BeforeTargets="ClCompile" Condition="'$(_ZKmpkgClassicOrManifest)' == 'true'">
+    <Message Text="Using triplet &quot;$(KmpkgTriplet)&quot; from &quot;$(_ZKmpkgCurrentInstalledDir)&quot;"
+             Importance="Normal" Condition="'$(KmpkgEnabled)' == 'true'"/>
+    <Message Text="Using normalized configuration &quot;$(_ZKmpkgNormalizedConfiguration)&quot;"
+             Importance="Normal" Condition="'$(KmpkgEnabled)' == 'true'"/>
+    <Message Text="Not using Kmpkg because KmpkgEnabled is &quot;$(KmpkgEnabled)&quot;"
+             Importance="Normal" Condition="'$(KmpkgEnabled)' != 'true'"/>
+    <Message Text="Kmpkg is unable to link because we cannot decide between Release and Debug libraries. Please define the property KmpkgConfiguration to be 'Release' or 'Debug' (currently '$(KmpkgConfiguration)')."
+             Importance="High" Condition="'$(KmpkgEnabled)' == 'true' and '$(_ZKmpkgNormalizedConfiguration)' == ''"/>
+  </Target>
+
+  <Choose>
+    <When Condition="'$(KmpkgHostTriplet)' != ''">
+      <PropertyGroup>
+        <_ZKmpkgHostTripletParameter>"--host-triplet=$(KmpkgHostTriplet)"</_ZKmpkgHostTripletParameter>
+        <_ZKmpkgHostTripletSuffix>$(KmpkgHostTriplet).</_ZKmpkgHostTripletSuffix>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <_ZKmpkgHostTripletParameter />
+        <_ZKmpkgHostTripletSuffix />
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <PropertyGroup>
+    <_ZKmpkgManifestFileLocation>$(_ZKmpkgManifestRoot)kmpkg.json</_ZKmpkgManifestFileLocation>
+    <_ZKmpkgConfigurationFileLocation>$(_ZKmpkgManifestRoot)kmpkg-configuration.json</_ZKmpkgConfigurationFileLocation>
+    <_ZKmpkgMSBuildStampFile>$(_ZKmpkgInstalledDir).msbuildstamp-$(KmpkgTriplet).$(_ZKmpkgHostTripletSuffix)stamp</_ZKmpkgMSBuildStampFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(KmpkgEnabled)' == 'true' and '$(KmpkgEnableManifest)' == 'true' and '$(KmpkgManifestInstall)' == 'true'">
+    <_ZKmpkgInstallManifestDependenciesInputs Include="$(_ZKmpkgManifestFileLocation)"/>
+    <_ZKmpkgInstallManifestDependenciesInputs Include="$(_ZKmpkgConfigurationFileLocation)" Condition="Exists('$(_ZKmpkgConfigurationFileLocation)')"/>
+  </ItemGroup>
+
+  <Target Name="KmpkgInstallManifestDependencies" BeforeTargets="ClCompile"
+          Condition="'$(KmpkgEnabled)' == 'true' and '$(KmpkgEnableManifest)' == 'true' and '$(KmpkgManifestInstall)' == 'true'"
+          Inputs="@(_ZKmpkgInstallManifestDependenciesInputs)"
+          Outputs="$(_ZKmpkgMSBuildStampFile)">
+    <!-- This is set inside the target because $(TLogLocation) may not be set yet when parsing the .targets on VS2015 -->
+    <PropertyGroup>
+      <_ZKmpkgTLogFileLocation>$(TLogLocation)KmpkgInstallManifest$(KmpkgTriplet).$(_ZKmpkgHostTripletSuffix)read.1u.tlog</_ZKmpkgTLogFileLocation>
+    </PropertyGroup>
+    <Message Text="Installing kmpkg dependencies to $(_ZKmpkgInstalledDir)" Importance="High" />
+    <MakeDir Directories="$(_ZKmpkgInstalledDir)" />
+    <Message Text="%22$(_ZKmpkgExecutable)%22 install $(_ZKmpkgHostTripletParameter) --x-wait-for-lock --triplet %22$(KmpkgTriplet)%22 --kmpkg-root %22$(_ZKmpkgRoot)\%22 %22--x-manifest-root=$(_ZKmpkgManifestRoot)\%22 %22--x-install-root=$(_ZKmpkgInstalledDir)\%22 $(KmpkgAdditionalInstallOptions)"
+          Importance="High" />
+    <Exec Command="%22$(_ZKmpkgExecutable)%22 install $(_ZKmpkgHostTripletParameter) --x-wait-for-lock --triplet %22$(KmpkgTriplet)%22 --kmpkg-root %22$(_ZKmpkgRoot)\%22 %22--x-manifest-root=$(_ZKmpkgManifestRoot)\%22 %22--x-install-root=$(_ZKmpkgInstalledDir)\%22 $(KmpkgAdditionalInstallOptions)"
+          StandardOutputImportance="High"
+          StandardErrorImportance="High"
+          UseUtf8Encoding="Always"
+          StdOutEncoding="utf-8"
+          StdErrEncoding="utf-8"
+          UseCommandProcessor="false"
+          />
+    <WriteLinesToFile File="$(_ZKmpkgTLogFileLocation)"
+                      Lines="@(_ZKmpkgInstallManifestDependenciesInputs -> '^%(Identity)')"
+                      Encoding="Unicode"
+                      Overwrite="true"/>
+    <Touch Files="$(_ZKmpkgMSBuildStampFile)" AlwaysCreate="true" />
+
+    <CreateProperty Value="false">
+      <Output TaskParameter="ValueSetByTask" PropertyName="Link_MinimalRebuildFromTracking" />
+    </CreateProperty>
+  </Target>
+
+  <Target Name="AppLocalFromInstalled" AfterTargets="CopyFilesToOutputDirectory" BeforeTargets="CopyLocalFilesOutputGroup;RegisterOutput"
+          Condition="'$(_ZKmpkgClassicOrManifest)' == 'true' and '$(KmpkgApplocalDeps)' == 'true' and '$(LinkSkippedExecution)' != 'true' and '@(Link)' != ''">
+    <Message Text="[kmpkg] Starting KmpkgApplocalDeps" Importance="low" />
+    <PropertyGroup>
+      <_ZKmpkgApplocalInstalledBinDir>$(_ZKmpkgCurrentInstalledDir)$(_ZKmpkgConfigSubdir)bin</_ZKmpkgApplocalInstalledBinDir>
+      <_ZKmpkgApplocalTLogPath>$(TLogLocation)$(ProjectName).write.1u.tlog</_ZKmpkgApplocalTLogPath>
+      <_ZKmpkgApplocalCopiedFilesLogPath>$(IntDir)kmpkg.applocal.log</_ZKmpkgApplocalCopiedFilesLogPath>
+      <_ZKmpkgApplocalBuiltinArguments>--target-binary="$(TargetPath)" --installed-bin-dir="$(_ZKmpkgApplocalInstalledBinDir)" --tlog-file="$(_ZKmpkgApplocalTLogPath)" --copied-files-log="$(_ZKmpkgApplocalCopiedFilesLogPath)"</_ZKmpkgApplocalBuiltinArguments>
+      <_ZKmpkgAppLocalPowerShellCommonArguments>-ExecutionPolicy Bypass -noprofile -File "$(MSBuildThisFileDirectory)applocal.ps1" "$(TargetPath)" "$(_ZKmpkgApplocalInstalledBinDir)" "$(_ZKmpkgApplocalTLogPath)" "$(_ZKmpkgApplocalCopiedFilesLogPath)"</_ZKmpkgAppLocalPowerShellCommonArguments>
+    </PropertyGroup>
+    <Exec
+      Condition="'$(KmpkgXUseBuiltInApplocalDeps)' == 'true'"
+      Command="%22$(_ZKmpkgExecutable)%22 z-applocal $(_ZKmpkgApplocalBuiltinArguments)"
+      UseUtf8Encoding="Always"
+      StdOutEncoding="utf-8"
+      StdErrEncoding="utf-8"
+      UseCommandProcessor="false"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode"
+              PropertyName="_ZKmpkgAppLocalExitCode" />
+    </Exec>
+    <Warning Text="[kmpkg] Failed to gather app local DLL dependencies, program may not run. Set KmpkgApplocalDeps to false in your project file to suppress this warning. Builtin arguments: $(_ZKmpkgApplocalBuiltinArguments)"
+      Condition="$(_ZKmpkgAppLocalExitCode) != 0 and '$(KmpkgXUseBuiltInApplocalDeps)' == 'true'"/>
+
+    <!-- Search %PATH% for pwsh.exe if it is available. -->
+    <Exec
+      Condition="'$(KmpkgXUseBuiltInApplocalDeps)' != 'true'"
+      Command="pwsh.exe $(_ZKmpkgAppLocalPowerShellCommonArguments)"
+      IgnoreExitCode="true"
+      UseCommandProcessor="false">
+      <Output TaskParameter="ExitCode"
+              PropertyName="_ZKmpkgAppLocalExitCode" />
+    </Exec>
+    <!-- Fall back to well known system PowerShell location otherwise. -->
+    <Message Text="[kmpkg] Failed to run applocal.ps1 using pwsh, falling back to system PowerShell." Importance="low"
+             Condition="$(_ZKmpkgAppLocalExitCode) == 9009" />
+    <Exec
+      Command="%22$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe%22 $(_ZKmpkgAppLocalPowerShellCommonArguments)"
+      IgnoreExitCode="true"
+      UseCommandProcessor="false"
+      Condition="$(_ZKmpkgAppLocalExitCode) == 9009 and '$(KmpkgXUseBuiltInApplocalDeps)' != 'true'">
+      <Output TaskParameter="ExitCode"
+              PropertyName="_ZKmpkgAppLocalExitCode" />
+    </Exec>
+    <!-- We're ignoring the above exit codes, so translate into a warning if both failed. -->
+    <Warning Text="[kmpkg] Failed to gather app local DLL dependencies, program may not run. Set KmpkgApplocalDeps to false in your project file to suppress this warning. PowerShell arguments: $(_ZKmpkgAppLocalPowerShellCommonArguments)"
+      Condition="$(_ZKmpkgAppLocalExitCode) != 0 and '$(KmpkgXUseBuiltInApplocalDeps)' != 'true'"/>
+
+    <ReadLinesFromFile File="$(IntDir)kmpkg.applocal.log"
+      Condition="$(_ZKmpkgAppLocalExitCode) == 0">
+      <Output TaskParameter="Lines" ItemName="KmpkgAppLocalDLLs" />
+    </ReadLinesFromFile>
+    <Message Text="@(KmpkgAppLocalDLLs,'%0A')" Importance="Normal" Condition="$(_ZKmpkgAppLocalExitCode) == 0" />
+    <ItemGroup Condition="$(_ZKmpkgAppLocalExitCode) == 0">
+      <ReferenceCopyLocalPaths Include="@(KmpkgAppLocalDLLs)" />
+    </ItemGroup>
+  </Target>
+</Project>

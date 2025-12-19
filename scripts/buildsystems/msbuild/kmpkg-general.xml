@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="KmpkgOptions" DisplayName="kmpkg" PageTemplate="generic" Description="Kmpkg"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General Kmpkg Configuration" />
+    <Category Name="Conditional" DisplayName="Target and Configuration Specific" Description="Conditional Kmpkg Configuration" />
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <!-- Note: HasConfigurationCondition must be either "true" or ommitted. Otherwise, the kmpkg property sheet will not be displayed. -->
+    <!-- Note: Remove all instances of 'Label="Kmpkg"' from this file if the kmpkg property sheet does not display any values.  -->
+    <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+
+  <BoolProperty Name="KmpkgEnabled" DisplayName="Use Kmpkg" Category="General" Default="true"
+                Description="Use Kmpkg for includes and libraries.">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <BoolProperty Name="KmpkgEnableManifest" DisplayName="Use Kmpkg Manifest" Category="General" Default="false"
+                Description="Use the kmpkg manifest file to define your dependencies.">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <BoolProperty Name="KmpkgManifestInstall" DisplayName="Install Kmpkg Dependencies" Category="General" Default="true"
+                Description="Install dependencies from the kmpkg manifest.">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <BoolProperty Name="KmpkgAutoLink" DisplayName="Use AutoLink" Category="General" Default="true"
+                Description="Enables automatic linking with libraries build using Kmpkg. Does not work with lld-link.exe.">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <BoolProperty Name="KmpkgApplocalDeps" DisplayName="App-locally deploy DLLs" Category="General" Default="true"
+                Description="Copies DLL dependencies from the kmpkg installed tree to the project output directory.">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <BoolProperty Name="KmpkgXUseBuiltInApplocalDeps" DisplayName="Use built-in app-local deployment" Category="General" Default="false"
+                Description="(experimental) When copying DLL dependencies, use built-in-to-kmpkg implementation rather than PowerShell script.">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <StringProperty Name="KmpkgRoot" DisplayName="Kmpkg Root" Category="General" Subtype="folder" Visible="false"
+                  Description="Root path where Kmpkg is located. Be careful with changing this one. It is, for example, unable to update this property page from the new location without restarting visual studio.">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <StringProperty Name="KmpkgManifestRoot" DisplayName="Kmpkg Manifest Root" Category="General" Subtype="folder" Visible="false"
+                  Description="The path to the directory which contains the manifest file, and the kmpkg_installed directory.">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Kmpkg" HasConfigurationCondition="false" />
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <StringProperty Name="KmpkgInstalledDir" DisplayName="Installed Directory" Category="General" Subtype="folder" Visible="true"
+                  Description="The location where headers and binaries will be consumed from. In manifest mode, this directory will be created and populated based on kmpkg.json.">
+  </StringProperty>
+
+  <BoolProperty Name="KmpkgUseStatic" DisplayName="Use Static Libraries" Category="Conditional" Default="false"
+                Description="Kmpkg can build static libraries (e.g. x64-windows-static). This options changes the default triplet to use these static libraries by appending -static to $(KmpkgTriplet). This will not be shown in the evaluation of the Triplet within the UI." />
+
+  <BoolProperty Name="KmpkgUseMD" DisplayName="Use Dynamic CRT" Category="Conditional" Default="false"
+                Description="Only effective if 'Use Static Libraries' is selected. Kmpkg can build static libraries compiled against MSVC runtime (e.g. x64-windows-static-md). This options changes the default triplet to use these static libraries by appending -md to $(KmpkgTriplet). This will not be shown in the evaluation of the Triplet within the UI." />
+
+  <StringProperty Name="KmpkgTriplet" DisplayName="Triplet" Category="Conditional" Subtype="Text"
+                  Description="Specifies the triplet used by Kmpkg. Does not include the '-static' or '-static-md' suffixes that may be added by the 'Use static libraries' and 'Use Dynamic CRT' flags." />
+
+  <StringProperty Name="KmpkgHostTriplet" DisplayName="Host Triplet" Category="Conditional" Subtype="Text"
+                  Description="Specifies the host triplet used by Kmpkg. If empty, this will be automatically determined." />
+
+  <StringProperty Name="KmpkgAdditionalInstallOptions" DisplayName="Additional Options" Category="General" Subtype="Text"
+                  Description="Additional command line options to be passed to the underlying kmpkg tool when installing in manifest mode." />
+
+  <EnumProperty Name="KmpkgConfiguration" DisplayName="Kmpkg Configuration" Category="Conditional"
+                Description="Specifies if release or debug libraries build with kmpkg should be used.">
+    <EnumValue Name="Release" Description="Uses release libraries" />
+    <EnumValue Name="Debug" Description="Uses debug libraries" />
+  </EnumProperty>
+
+</Rule>

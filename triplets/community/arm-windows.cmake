@@ -1,0 +1,5 @@
+set(KMPKG_TARGET_ARCHITECTURE arm)
+set(KMPKG_CRT_LINKAGE dynamic)
+set(KMPKG_LIBRARY_LINKAGE dynamic)
+
+

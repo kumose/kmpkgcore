@@ -1,0 +1,1 @@
+set(KMPKG_POLICY_CMAKE_HELPER_PORT enabled)
