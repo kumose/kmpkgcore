@@ -1,0 +1,21 @@
+{
+  "name": "tally",
+  "version": "1.3.5",
+  "description": [
+    "A high-concurrency C++ metrics library. Embedded, thread-local write, supports Prometheus/custom formats, for large-scale clusters."
+  ],
+  "homepage": "https://github.com/kumose/tally",
+  "license": "Apache-2.0",
+  "dependencies": [
+    "turbo",
+    "nlohmann-json",
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
