@@ -1,0 +1,1 @@
+set(NINJA "${CMAKE_CURRENT_LIST_DIR}/../../tools/ninja/ninja@KMPKG_TARGET_EXECUTABLE_SUFFIX@")
