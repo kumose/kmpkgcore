@@ -1236,6 +1236,10 @@
             "baseline": "4.4.0",
             "port-version": 0
         },
+        "tomlplusplus": {
+            "baseline": "3.4.0",
+            "port-version": 1
+        },
         "turbo": {
             "baseline": "0.7.2",
             "port-version": 0
