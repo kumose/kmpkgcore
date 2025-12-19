@@ -864,6 +864,10 @@
             "baseline": "12.1.0",
             "port-version": 0
         },
+        "fp16": {
+            "baseline": "2021-02-21",
+            "port-version": 4
+        },
         "gettext-libintl": {
             "baseline": "0.22.5",
             "port-version": 4
@@ -1055,6 +1059,10 @@
         "protobuf": {
             "baseline": "5.29.5",
             "port-version": 3
+        },
+        "psimd": {
+            "baseline": "2021-02-21",
+            "port-version": 4
         },
         "python3": {
             "baseline": "3.12.9",
