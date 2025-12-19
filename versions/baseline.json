@@ -932,6 +932,10 @@
             "baseline": "1.17.0",
             "port-version": 2
         },
+        "hnswlib": {
+            "baseline": "0.8.0",
+            "port-version": 0
+        },
         "hwloc": {
             "baseline": "2.11.2",
             "port-version": 0
