@@ -844,6 +844,10 @@
             "baseline": "8.17.0",
             "port-version": 0
         },
+        "curlpp": {
+            "baseline": "2018-06-15",
+            "port-version": 11
+        },
         "doctest": {
             "baseline": "2.4.12",
             "port-version": 0
