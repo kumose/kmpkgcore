@@ -1012,6 +1012,10 @@
             "baseline": "1916",
             "port-version": 0
         },
+        "llvm": {
+            "baseline": "18.1.6",
+            "port-version": 5
+        },
         "matroska": {
             "baseline": "1.7.1",
             "port-version": 3

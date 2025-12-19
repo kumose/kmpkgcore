@@ -1,5 +1,19 @@
 # import summary start #####
 operator: Kmdo
+when: 2025-12-20T01:41:29+08:00
+original.hash: d2452281016c6d77b6ef199d599d9929eafe4807
+original.author: toge
+original.date: 2025-12-19 04:49:30 +0900
+original.message: [idyntree] update to 14.2.0 (#48945)
+
+
+original.remote: https://github.com/microsoft/vcpkg.git
+ports.count: 1
+ports.cost.us: 9223372036854775
+# import summary end #####
+
+# import summary start #####
+operator: Kmdo
 when: 2025-12-20T01:41:08+08:00
 original.hash: d2452281016c6d77b6ef199d599d9929eafe4807
 original.author: toge
