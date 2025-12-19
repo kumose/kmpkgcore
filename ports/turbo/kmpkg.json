@@ -1,0 +1,19 @@
+{
+  "name": "turbo",
+  "version": "0.7.2",
+  "description": [
+    "Turbo kumo search foundamental cpp library."
+  ],
+  "homepage": "https://github.com/kumose/turbo",
+  "license": "Apache-2.0",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
