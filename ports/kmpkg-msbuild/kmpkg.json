@@ -1,0 +1,25 @@
+{
+  "name": "kmpkg-msbuild",
+  "version-date": "2023-08-08",
+  "documentation": "https://kmpkg.io/en/docs/README.html",
+  "license": "MIT",
+  "supports": "native & windows",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake-get-vars",
+      "host": true
+    },
+    {
+      "name": "kmpkg-pkgconfig-get-modules",
+      "host": true
+    }
+  ],
+  "features": {
+    "pkg-config": {
+      "description": "Enable pkg-config lookup for msbuild",
+      "dependencies": [
+        "pkgconf"
+      ]
+    }
+  }
+}

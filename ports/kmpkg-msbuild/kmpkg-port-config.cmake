@@ -1,0 +1,5 @@
+include_guard(GLOBAL)
+include("${CMAKE_CURRENT_LIST_DIR}/../kmpkg-cmake-get-vars/kmpkg-port-config.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/../kmpkg-pkgconfig-get-modules/kmpkg-port-config.cmake" OPTIONAL)
+include("${CMAKE_CURRENT_LIST_DIR}/z_kmpkg_msbuild_create_props.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kmpkg_msbuild_install.cmake")

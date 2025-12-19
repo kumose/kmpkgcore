@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <kmpkg_msbuild_props_imported>true</kmpkg_msbuild_props_imported>
+  </PropertyGroup>
+  <PropertyGroup>
+    <WindowsTargetPlatformVersion>@arg_TARGET_PLATFORM_VERSION@</WindowsTargetPlatformVersion>
+    <PlatformToolset>@KMPKG_PLATFORM_TOOLSET@</PlatformToolset>
+    <!-- <Platform>@arg_PLATFORM@</Platform> -->
+    <KmpkgApplocalDeps>false</KmpkgApplocalDeps>
+    <KmpkgManifestInstall>false</KmpkgManifestInstall>
+    <KmpkgManifestEnabled>false</KmpkgManifestEnabled>
+    <KmpkgEnabled>false</KmpkgEnabled>
+    <KmpkgTriplet>@TARGET_TRIPLET@</KmpkgTriplet>
+    <KmpkgInstalledDir>@_KMPKG_INSTALLED_DIR@</KmpkgInstalledDir>
+    <UseIntelMKL>No</UseIntelMKL>
+    <ImportProjectExtensionProps>false</ImportProjectExtensionProps>
+    <ForceImportAfterCppProps>kmpkg_msbuild.props</ForceImportAfterCppProps>
+    <ForceImportAfterCppTargets>kmpkg_msbuild.targets</ForceImportAfterCppTargets>
+  </PropertyGroup>
+  @KMPKG_MSBUILD_ADDITIONAL_PROPS_XML@
+</Project>

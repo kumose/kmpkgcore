@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Condition="'$(kmpkg_msbuild_props_imported)' != 'true'" Project="kmpkg_msbuild.props" />
+  <PropertyGroup>
+    <WindowsTargetPlatformVersion>@arg_TARGET_PLATFORM_VERSION@</WindowsTargetPlatformVersion>
+    <PlatformToolset>@KMPKG_PLATFORM_TOOLSET@</PlatformToolset>
+    <!-- <Platform>@arg_PLATFORM@</Platform> -->
+    <KmpkgApplocalDeps>false</KmpkgApplocalDeps>
+    <KmpkgManifestInstall>false</KmpkgManifestInstall>
+    <KmpkgManifestEnabled>false</KmpkgManifestEnabled>
+    <KmpkgEnabled>false</KmpkgEnabled>
+    <KmpkgTriplet>@TARGET_TRIPLET@</KmpkgTriplet>
+    <KmpkgInstalledDir>@_KMPKG_INSTALLED_DIR@</KmpkgInstalledDir>
+    <UseIntelMKL>No</UseIntelMKL>
+    <ImportProjectExtensionProps>false</ImportProjectExtensionProps>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+        <!-- kmpkg -->
+        <RuntimeLibrary Condition="'${KMPKG_CRT_LINKAGE}|$(Configuration)' == 'static|${arg_DEBUG_CONFIGURATION}'">MultiThreadedDebug</RuntimeLibrary>
+        <RuntimeLibrary Condition="'${KMPKG_CRT_LINKAGE}|$(Configuration)' == 'static|${arg_RELEASE_CONFIGURATION}'">MultiThreaded</RuntimeLibrary>
+        <RuntimeLibrary Condition="'${KMPKG_CRT_LINKAGE}|$(Configuration)' == 'dynamic|${arg_DEBUG_CONFIGURATION}'">MultiThreadedDebugDLL</RuntimeLibrary>
+        <RuntimeLibrary Condition="'${KMPKG_CRT_LINKAGE}|$(Configuration)' == 'dynamic|${arg_RELEASE_CONFIGURATION}'">MultiThreadedDLL</RuntimeLibrary>
+        <AdditionalIncludeDirectories Condition="'$(Configuration)'=='${arg_DEBUG_CONFIGURATION}'"  >@MSBUILD_INCLUDE_DIRS_DEBUG@</AdditionalIncludeDirectories>
+        <AdditionalIncludeDirectories Condition="'$(Configuration)'=='${arg_RELEASE_CONFIGURATION}'">@MSBUILD_INCLUDE_DIRS_RELEASE@</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Update="@project_root@**/*.cpp;@project_root@**/*.cxx">
+        <AdditionalOptions Condition="'$(Configuration)'=='${arg_DEBUG_CONFIGURATION}'"  >%(AdditionalOptions) @KMPKG_COMBINED_CXX_FLAGS_DEBUG@ @MSBUILD_CFLAGS_DEBUG@ /WX-</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)'=='${arg_RELEASE_CONFIGURATION}'">%(AdditionalOptions) @KMPKG_COMBINED_CXX_FLAGS_RELEASE@ @MSBUILD_CFLAGS_RELEASE@ /WX-</AdditionalOptions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup >
+    <ClCompile Update="@project_root@**/*.c">
+        <AdditionalOptions Condition="'$(Configuration)'=='${arg_DEBUG_CONFIGURATION}'"  >%(AdditionalOptions) @KMPKG_COMBINED_C_FLAGS_DEBUG@ @MSBUILD_CFLAGS_DEBUG@ /WX-</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)'=='${arg_RELEASE_CONFIGURATION}'">%(AdditionalOptions) @KMPKG_COMBINED_C_FLAGS_RELEASE@ @MSBUILD_CFLAGS_RELEASE@ /WX-</AdditionalOptions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <Link>
+        <!-- Required Libs -->
+        <AdditionalDependencies Condition="'$(Configuration)'=='${arg_DEBUG_CONFIGURATION}'"        >@MSBUILD_LIBRARIES_DEBUG@</AdditionalDependencies>
+        <AdditionalLibraryDirectories Condition="'$(Configuration)'=='${arg_DEBUG_CONFIGURATION}'"  >@MSBUILD_LIBRARIES_DIRS_DEBUG@</AdditionalLibraryDirectories>
+        <AdditionalDependencies Condition="'$(Configuration)'=='${arg_RELEASE_CONFIGURATION}'"      >@MSBUILD_LIBRARIES_RELEASE@</AdditionalDependencies >
+        <AdditionalLibraryDirectories Condition="'$(Configuration)'=='${arg_RELEASE_CONFIGURATION}'">@MSBUILD_LIBRARIES_DIRS_RELEASE@</AdditionalLibraryDirectories>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_DEBUG_CONFIGURATION}|DynamicLibrary'"  >%(AdditionalOptions) @KMPKG_COMBINED_SHARED_LINKER_FLAGS_DEBUG@ @MSBUILD_LIBS_DEBUG@ /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_RELEASE_CONFIGURATION}|DynamicLibrary'">%(AdditionalOptions) @KMPKG_COMBINED_SHARED_LINKER_FLAGS_RELEASE@ @MSBUILD_LIBS_RELEASE@ /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_DEBUG_CONFIGURATION}|Application'"  >%(AdditionalOptions) @KMPKG_COMBINED_EXE_LINKER_FLAGS_DEBUG@ @MSBUILD_LIBS_DEBUG@ /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_RELEASE_CONFIGURATION}|Application'">%(AdditionalOptions) @KMPKG_COMBINED_EXE_LINKER_FLAGS_RELEASE@ @MSBUILD_LIBS_RELEASE@ /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_DEBUG_CONFIGURATION}|StaticLibrary'">%(AdditionalOptions) @KMPKG_COMBINED_STATIC_LINKER_FLAGS_DEBUG@</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_RELEASE_CONFIGURATION}|StaticLibrary'">%(AdditionalOptions) @KMPKG_COMBINED_STATIC_LINKER_FLAGS_RELEASE@</AdditionalOptions>
+    </Link>
+    <Lib>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_DEBUG_CONFIGURATION}|StaticLibrary'">%(AdditionalOptions) @KMPKG_COMBINED_STATIC_LINKER_FLAGS_DEBUG@</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='${arg_RELEASE_CONFIGURATION}|StaticLibrary'">%(AdditionalOptions) @KMPKG_COMBINED_STATIC_LINKER_FLAGS_RELEASE@</AdditionalOptions>
+        <!-- Required to prevent linker errors on Visual Studio 2017 with static CRT -->
+        <TargetMachine Condition="'${KMPKG_TARGET_ARCHITECTURE}'=='x86'">MachineX86</TargetMachine>
+        <TargetMachine Condition="'${KMPKG_TARGET_ARCHITECTURE}'=='x64'">MachineX64</TargetMachine>
+        <TargetMachine Condition="'${KMPKG_TARGET_ARCHITECTURE}'=='arm'">MachineARM</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  @KMPKG_MSBUILD_ADDITIONAL_TARGETS_XML@
+</Project>
