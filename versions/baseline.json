@@ -732,6 +732,10 @@
             "baseline": "6.5",
             "port-version": 1
         },
+        "nlohmann-json": {
+            "baseline": "3.12.0",
+            "port-version": 1
+        },
         "openssl": {
             "baseline": "3.6.0",
             "port-version": 3
