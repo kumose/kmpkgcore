@@ -1232,6 +1232,10 @@
             "baseline": "4.2.3",
             "port-version": 0
         },
+        "sparsehash": {
+            "baseline": "2.0.4",
+            "port-version": 2
+        },
         "sparsepp": {
             "baseline": "1.22",
             "port-version": 4
