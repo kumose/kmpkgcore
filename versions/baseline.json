@@ -164,6 +164,10 @@
             "baseline": "2025-03-31",
             "port-version": 0
         },
+        "benchmark": {
+            "baseline": "1.9.4",
+            "port-version": 0
+        },
         "blas": {
             "baseline": "2023-04-14",
             "port-version": 5
