@@ -972,8 +972,16 @@
             "baseline": "5.8.1",
             "port-version": 0
         },
+        "libsodium": {
+            "baseline": "1.0.20",
+            "port-version": 3
+        },
         "libsoundio": {
             "baseline": "2.0.1.7",
+            "port-version": 0
+        },
+        "libstemmer": {
+            "baseline": "2021.2.2.0",
             "port-version": 0
         },
         "libunwind": {
