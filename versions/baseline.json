@@ -832,6 +832,10 @@
             "baseline": "2.10.19",
             "port-version": 3
         },
+        "cppzmq": {
+            "baseline": "4.11.0",
+            "port-version": 0
+        },
         "crc32c": {
             "baseline": "1.1.2",
             "port-version": 2
