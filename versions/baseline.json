@@ -944,6 +944,10 @@
             "baseline": "78.1",
             "port-version": 0
         },
+        "inih": {
+            "baseline": "62",
+            "port-version": 0
+        },
         "jemalloc": {
             "baseline": "5.3.0",
             "port-version": 3
