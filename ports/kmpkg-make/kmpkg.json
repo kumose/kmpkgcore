@@ -1,0 +1,13 @@
+{
+  "name": "kmpkg-make",
+  "version-date": "2025-10-26",
+  "documentation": "https://learn.microsoft.com/kmpkg/maintainers/functions/kmpkg_make_configure",
+  "license": null,
+  "supports": "native",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake-get-vars",
+      "host": true
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+include("${CMAKE_CURRENT_LIST_DIR}/../kmpkg-cmake-get-vars/kmpkg-port-config.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kmpkg_make_configure.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kmpkg_make_install.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kmpkg_make_common.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kmpkg_make.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kmpkg_scripts.cmake")
