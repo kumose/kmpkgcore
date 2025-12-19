@@ -1,5 +1,19 @@
 # import summary start #####
 operator: Kmdo
+when: 2025-12-19T16:10:06+08:00
+original.hash: a20d95d3c76906363896754eb1cc93db2a694f16
+original.author: toge
+original.date: 2025-12-18 06:23:11 +0900
+original.message: [libjpeg-turbo] update to 3.1.3 (#48813)
+
+
+original.remote: https://github.com/microsoft/vcpkg.git
+ports.count: 1
+ports.cost.us: 9223372036854775
+# import summary end #####
+
+# import summary start #####
+operator: Kmdo
 when: 2025-12-19T14:38:14+08:00
 original.hash: a20d95d3c76906363896754eb1cc93db2a694f16
 original.author: toge
