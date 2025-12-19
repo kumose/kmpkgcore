@@ -1020,6 +1020,10 @@
             "baseline": "1.23",
             "port-version": 0
         },
+        "libaio": {
+            "baseline": "0.3.113",
+            "port-version": 0
+        },
         "libbacktrace": {
             "baseline": "2024-11-30",
             "port-version": 0
