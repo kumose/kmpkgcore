@@ -1,0 +1,6 @@
+{
+  "name": "kmpkg-cmake",
+  "version-date": "2024-04-23",
+  "documentation": "https://learn.microsoft.com/kmpkg/maintainers/functions/kmpkg_cmake_configure",
+  "license": "MIT"
+}

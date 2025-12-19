@@ -1,0 +1,12 @@
+{
+  "name": "kmpkg-cmake-get-vars",
+  "version-date": "2025-05-29",
+  "documentation": "https://kmpkg.io/en/docs/README.html",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    }
+  ]
+}

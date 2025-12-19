@@ -1,0 +1,6 @@
+{
+  "name": "kmpkg-cmake-config",
+  "version-date": "2024-05-23",
+  "documentation": "https://learn.microsoft.com/kmpkg/maintainers/functions/kmpkg_cmake_config_fixup",
+  "license": "MIT"
+}

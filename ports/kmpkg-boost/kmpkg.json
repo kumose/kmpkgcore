@@ -1,0 +1,15 @@
+{
+  "name": "kmpkg-boost",
+  "version-date": "2025-03-29",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
