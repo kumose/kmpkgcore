@@ -880,12 +880,20 @@
             "baseline": "0.8.1",
             "port-version": 0
         },
+        "fast-float": {
+            "baseline": "8.1.0",
+            "port-version": 0
+        },
         "flatbuffers": {
             "baseline": "25.9.23",
             "port-version": 1
         },
         "fmt": {
             "baseline": "12.1.0",
+            "port-version": 0
+        },
+        "folly": {
+            "baseline": "2025.05.19.00",
             "port-version": 0
         },
         "fp16": {
