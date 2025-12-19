@@ -1180,6 +1180,10 @@
             "baseline": "3.10",
             "port-version": 1
         },
+        "nghttp2": {
+            "baseline": "1.68.0",
+            "port-version": 0
+        },
         "nlohmann-json": {
             "baseline": "3.12.0",
             "port-version": 1
