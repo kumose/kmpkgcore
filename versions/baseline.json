@@ -1032,6 +1032,10 @@
             "baseline": "2024-11-30",
             "port-version": 0
         },
+        "libdwarf": {
+            "baseline": "2.2.0",
+            "port-version": 0
+        },
         "libevent": {
             "baseline": "2.1.12+20230128",
             "port-version": 1
