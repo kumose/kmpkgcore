@@ -1,0 +1,17 @@
+{
+  "name": "roaring",
+  "version": "4.5.0",
+  "description": "A better compressed bitset in C (and C++)",
+  "homepage": "https://github.com/RoaringBitmap/CRoaring",
+  "license": "Apache-2.0 OR MIT",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
