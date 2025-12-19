@@ -796,6 +796,10 @@
             "baseline": "2021-26-04",
             "port-version": 5
         },
+        "brotli": {
+            "baseline": "1.2.0",
+            "port-version": 0
+        },
         "brpc": {
             "baseline": "1.15.0",
             "port-version": 0
