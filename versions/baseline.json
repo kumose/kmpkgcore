@@ -1176,6 +1176,10 @@
             "baseline": "2023-10-31",
             "port-version": 0
         },
+        "pcg": {
+            "baseline": "2022-04-09",
+            "port-version": 0
+        },
         "pcre": {
             "baseline": "8.45",
             "port-version": 7
