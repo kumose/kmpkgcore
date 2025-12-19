@@ -636,6 +636,10 @@
             "baseline": "1.0.8",
             "port-version": 6
         },
+        "collie": {
+            "baseline": "0.6.8",
+            "port-version": 0
+        },
         "doctest": {
             "baseline": "2.4.12",
             "port-version": 0

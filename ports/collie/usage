@@ -1,0 +1,4 @@
+collie provides CMake targets:
+
+    find_path(COLLIE_INCLUDE_DIRS "collie/version.h")
+    target_include_directories(main PRIVATE ${COLLIE_INCLUDE_DIRS})
