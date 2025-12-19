@@ -164,6 +164,10 @@
             "baseline": "2025-03-31",
             "port-version": 0
         },
+        "blas": {
+            "baseline": "2023-04-14",
+            "port-version": 5
+        },
         "boost": {
             "baseline": "1.89.0",
             "port-version": 0
@@ -832,6 +836,10 @@
             "baseline": "2.7.3",
             "port-version": 0
         },
+        "faiss": {
+            "baseline": "1.13.1",
+            "port-version": 0
+        },
         "fmt": {
             "baseline": "12.1.0",
             "port-version": 0
@@ -904,6 +912,14 @@
             "baseline": "2025-10-26",
             "port-version": 0
         },
+        "lapack": {
+            "baseline": "2023-06-10",
+            "port-version": 3
+        },
+        "lapack-reference": {
+            "baseline": "3.12.1",
+            "port-version": 2
+        },
         "leveldb": {
             "baseline": "1.23",
             "port-version": 0
@@ -971,6 +987,10 @@
         "nlohmann-json": {
             "baseline": "3.12.0",
             "port-version": 1
+        },
+        "openblas": {
+            "baseline": "0.3.29",
+            "port-version": 0
         },
         "openssl": {
             "baseline": "3.6.0",
