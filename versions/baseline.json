@@ -844,6 +844,10 @@
             "baseline": "1.4.5",
             "port-version": 1
         },
+        "elfutils": {
+            "baseline": "0.193",
+            "port-version": 0
+        },
         "expat": {
             "baseline": "2.7.3",
             "port-version": 0
