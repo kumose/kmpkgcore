@@ -640,6 +640,10 @@
             "baseline": "1.0.8",
             "port-version": 6
         },
+        "doctest": {
+            "baseline": "2.4.12",
+            "port-version": 0
+        },
         "expat": {
             "baseline": "2.7.3",
             "port-version": 0
