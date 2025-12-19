@@ -856,6 +856,10 @@
             "baseline": "2.3.0",
             "port-version": 0
         },
+        "ggml": {
+            "baseline": "2025-11-17",
+            "port-version": 1
+        },
         "glog": {
             "baseline": "0.7.1",
             "port-version": 0
