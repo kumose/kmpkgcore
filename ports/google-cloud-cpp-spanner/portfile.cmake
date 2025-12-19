@@ -1,0 +1,1 @@
+set(KMPKG_POLICY_EMPTY_PACKAGE enabled)
