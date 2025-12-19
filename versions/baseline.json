@@ -16,6 +16,22 @@
             "baseline": "1.16.1",
             "port-version": 1
         },
+        "azure-core-tracing-opentelemetry-cpp": {
+            "baseline": "1.0.0-beta.4",
+            "port-version": 6
+        },
+        "azure-data-tables-cpp": {
+            "baseline": "1.0.0-beta.6",
+            "port-version": 1
+        },
+        "azure-identity-cpp": {
+            "baseline": "1.13.2",
+            "port-version": 1
+        },
+        "azure-kinect-depth-engine": {
+            "baseline": "1.4.2",
+            "port-version": 0
+        },
         "azure-macro-utils-c": {
             "baseline": "2022-01-21",
             "port-version": 1
@@ -752,6 +768,10 @@
             "baseline": "1.0.3",
             "port-version": 15
         },
+        "libxml2": {
+            "baseline": "2.15.1",
+            "port-version": 0
+        },
         "ncurses": {
             "baseline": "6.5",
             "port-version": 1
@@ -763,6 +783,10 @@
         "openssl": {
             "baseline": "3.6.0",
             "port-version": 3
+        },
+        "opentelemetry-cpp": {
+            "baseline": "1.24.0",
+            "port-version": 0
         },
         "protobuf": {
             "baseline": "5.29.5",
