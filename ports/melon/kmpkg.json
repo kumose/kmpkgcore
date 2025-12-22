@@ -1,0 +1,113 @@
+{
+  "name": "melon",
+  "version": "1.1.1",
+  "port-version": 0,
+  "description": "An open-source C++ library developed and used at Kumo. The library is UNSTABLE on Windows",
+  "homepage": "https://github.com/kumose/melon",
+  "license": "Apache-2.0",
+  "supports": "(windows & x64 & !uwp) | (!windows & (x64 | arm64))",
+  "dependencies": [
+    "boost-chrono",
+    "boost-context",
+    "boost-conversion",
+    "boost-crc",
+    "boost-date-time",
+    "boost-filesystem",
+    "boost-multi-index",
+    "boost-program-options",
+    "boost-regex",
+    "boost-smart-ptr",
+    "boost-system",
+    "boost-thread",
+    "boost-variant",
+    "double-conversion",
+    "fmt",
+    "turbo",
+    "libevent",
+    "openssl",
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ],
+  "default-features": [
+    "zlib",
+    "int128",
+    "bzip2",
+    "lzma",
+    "lz4",
+    "zstd",
+    "snappy",
+    "libsodium"
+  ],
+  "features": {
+    "int128": {
+      "description": "enable int128 supports"
+    },
+    "bzip2": {
+      "description": "Support bzip2 for compression",
+      "dependencies": [
+        "bzip2"
+      ]
+    },
+    "libaio": {
+      "description": "Support compile with libaio",
+      "supports": "linux",
+      "dependencies": [
+        "libaio"
+      ]
+    },
+    "libsodium": {
+      "description": "Support libsodium for cryto",
+      "dependencies": [
+        "libsodium"
+      ]
+    },
+    "liburing": {
+      "description": "Support compile with liburing",
+      "supports": "linux",
+      "dependencies": [
+        "liburing"
+      ]
+    },
+    "lz4": {
+      "description": "Support lz4 for compression",
+      "dependencies": [
+        "lz4"
+      ]
+    },
+    "lzma": {
+      "description": "Support LZMA for compression",
+      "dependencies": [
+        "liblzma"
+      ]
+    },
+    "snappy": {
+      "description": "Support Snappy for compression",
+      "dependencies": [
+        {
+          "name": "snappy",
+          "features": [
+            "rtti"
+          ]
+        }
+      ]
+    },
+    "zlib": {
+      "description": "Support zlib for compression",
+      "dependencies": [
+        "zlib"
+      ]
+    },
+    "zstd": {
+      "description": "Support zstd for compression",
+      "dependencies": [
+        "zstd"
+      ]
+    }
+  }
+}
