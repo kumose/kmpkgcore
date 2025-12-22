@@ -1,0 +1,21 @@
+{
+  "name": "kthread",
+  "version": "0.9.0",
+  "description": "Kumo fiber and taskflow kthread",
+  "homepage": "https://github.com/kumose/kthread",
+  "license": "AGPL-3.0",
+  "supports": "!windows & !(arm & android)",
+  "dependencies": [
+    "turbo",
+    "tally",
+    "nlohmann-json",
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}

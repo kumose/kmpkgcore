@@ -1,0 +1,9 @@
+The package alioth provides CMake integration:
+
+    # link shared library
+    find_package(kthread CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE kthread::kthread_shared)
+
+    # or link static library
+
+    target_link_libraries(main PRIVATE kthread::kthread_static)
