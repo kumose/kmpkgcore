@@ -1,0 +1,28 @@
+{
+  "name": "granite",
+  "version": "0.8.9",
+  "description": "Kumo rocksdb wrapper",
+  "homepage": "https://github.com/kumose/granite",
+  "license": "AGPL-3.0",
+  "supports": "!windows",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    },
+    "protobuf",
+    {
+      "name": "rocksdb",
+      "features": [
+        "lz4",
+        "zlib",
+        "zstd"
+      ]
+    },
+    "turbo"
+  ]
+}

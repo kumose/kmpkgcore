@@ -960,6 +960,10 @@
             "baseline": "2.17.2",
             "port-version": 0
         },
+        "granite": {
+            "baseline": "0.8.9",
+            "port-version": 0
+        },
         "grpc": {
             "baseline": "1.71.0",
             "port-version": 3
