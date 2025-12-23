@@ -868,6 +868,10 @@
             "baseline": "3.4.0",
             "port-version": 0
         },
+        "duckdb": {
+            "baseline": "1.4.3",
+            "port-version": 0
+        },
         "ebml": {
             "baseline": "1.4.5",
             "port-version": 1

@@ -1,0 +1,18 @@
+{
+  "name": "duckdb",
+  "version": "1.4.3",
+  "port-version": 0,
+  "description": "DuckDB is an analytical in-process SQL database management system",
+  "homepage": "https://github.com/duckdb/duckdb",
+  "license": "Apache-2.0",
+  "dependencies": [
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
