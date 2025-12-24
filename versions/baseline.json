@@ -916,6 +916,10 @@
             "baseline": "2021-02-21",
             "port-version": 4
         },
+        "ftxui": {
+            "baseline": "6.1.9",
+            "port-version": 0
+        },
         "gettext-libintl": {
             "baseline": "0.22.5",
             "port-version": 4
