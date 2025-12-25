@@ -1,0 +1,20 @@
+{
+  "name": "xlog",
+  "version": "0.2.0",
+  "description": [
+    "A command line log."
+  ],
+  "homepage": "https://github.com/kumose/tally",
+  "license": "Apache-2.0",
+  "dependencies": [
+    "fmt",
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}

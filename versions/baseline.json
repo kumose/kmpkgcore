@@ -1380,6 +1380,10 @@
             "baseline": "1.1.3",
             "port-version": 0
         },
+        "xlog": {
+            "baseline": "0.2.0",
+            "port-version": 0
+        },
         "xsimd": {
             "baseline": "14.0.0",
             "port-version": 0
