@@ -1,0 +1,7 @@
+merak provides CMake targets:
+
+    find_package(merak CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE merak::merak_static)
+OR:
+    find_package(merak CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE merak::merak_shared)

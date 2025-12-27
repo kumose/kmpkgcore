@@ -1,0 +1,27 @@
+{
+  "name": "merak",
+  "version": "1.0.9",
+  "description": [
+    "merak kumo json protobuf transfer."
+  ],
+  "homepage": "https://github.com/kumose/merak",
+  "license": "AGPL-3.0",
+  "dependencies": [
+    "turbo",
+    "zlib",
+    {
+      "name": "protobuf",
+      "features": [
+        "zlib"
+      ]
+    },
+    {
+      "name": "kmpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "kmpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
